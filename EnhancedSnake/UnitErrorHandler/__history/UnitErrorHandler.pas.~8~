@@ -1,0 +1,30 @@
+unit UnitErrorHandler;
+
+interface
+
+uses
+  Windows;
+
+procedure ShowError(ErrorText :string); stdcall;
+
+implementation
+
+procedure ShowError(ErrorText :string);
+var CountDown :byte;
+    hStdOut :THandle;
+    TextAttributes: Cardinal;
+begin
+  hStdOut := GetStdHandle(STD_OUTPUT_HANDLE);
+  TextAttributes := BACKGROUND_RED;
+  SetConsoleTextAttribute(hStdOut, TextAttributes);
+  writeln('Error has occured: ', ErrorText);
+  writeln('Wait 5 seconds');
+  for CountDown := 5 downto 1 do
+  begin
+    writeln(CountDown);
+    sleep(1000);
+  end;
+  FreeConsole;
+end;
+
+end.

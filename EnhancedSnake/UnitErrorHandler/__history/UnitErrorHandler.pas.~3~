@@ -1,0 +1,14 @@
+unit UnitErrorHandler;
+
+interface
+
+procedure Output; stdcall;
+
+implementation
+
+procedure Output;
+begin
+  Writeln('this sucks');
+end;
+
+end.

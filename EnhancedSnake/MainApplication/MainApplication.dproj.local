@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.440,D:\Delphi\EnhancedSnake\MainApplication\Unit1.pas=D:\Delphi\EnhancedSnake\UnitInterface\UnitInterface.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.080,=D:\Delphi\EnhancedSnake\MainApplication\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.993,=D:\Delphi\EnhancedSnake\MainApplication\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.829,D:\Delphi\EnhancedSnake\MainApplication\Unit1.pas=D:\Delphi\EnhancedSnake\UnitGameMechanics\UnitGameMechanics.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.334,D:\Delphi\EnhancedSnake\MainApplication\Unit1.pas=D:\Delphi\EnhancedSnake\UnitDebugTools\UnitDebugTools.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.383,D:\Delphi\EnhancedSnake\UnitObstacles\UnitObstacles.pas=D:\Delphi\EnhancedSnake\MainApplication\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.758,D:\Delphi\EnhancedSnake\UnitObstacles\UnitObstacles.pas=D:\Delphi\EnhancedSnake\MainApplication\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.771,D:\Delphi\EnhancedSnake\UnitVisualization\UnitVisualization.pas=D:\Delphi\EnhancedSnake\MainApplication\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.063,D:\Delphi\EnhancedSnake\UnitErrorHandler\UnitErrorHandler.pas=D:\Delphi\EnhancedSnake\MainApplication\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.709,D:\Delphi\EnhancedSnake\UnitErrorHandler.pas=D:\Delphi\EnhancedSnake\UnitErrorHandler\UnitErrorHandler.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.091,=D:\Delphi\EnhancedSnake\MainApplication\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.013,=D:\Delphi\EnhancedSnake\MainApplication\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.703,D:\Delphi\EnhancedSnake\UnitDebugTools\UnitDebugTools.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.660,C:\Users\user\Documents\Embarcadero\Studio\Projects\Project1.dproj=D:\Delphi\EnhancedSnake\MainApplication.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.191,=C:\Users\user\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.467,=C:\Users\user\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.024,=D:\Delphi\EnhancedSnake\MainApplication\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.755,D:\Delphi\EnhancedSnake\MainApplication\Unit1.pas=D:\Delphi\EnhancedSnake\UnitErrorHandler.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.604,=D:\Delphi\EnhancedSnake\MainApplication\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.919,=D:\Delphi\EnhancedSnake\MainApplication\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.715,=D:\Delphi\EnhancedSnake\MainApplication\Unit1.pas</Transaction>
+  </Transactions>
+</BorlandProject>
