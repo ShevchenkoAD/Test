@@ -20,3 +20,5 @@ begin
   readln;
   SetOldMode;
 end.
+
+//Hahh so stupid
