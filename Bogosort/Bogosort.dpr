@@ -33,3 +33,6 @@ begin
   for i := 0 to n do write(arr[i], ' ');
   readln;
 end.
+
+//GG
+
