@@ -55,10 +55,13 @@ begin
 
   Delete(StringX, Counter, LastSubStringLength);
 
+  while Pos(LastSubString, StringX) = 1 do
+    Delete(StringX, 1, LastSubStringLength);
+
+  LastSubString := Concat(Separator, LastSubString);
+
   while Pos(LastSubString, StringX) <> 0 do
-  begin
-    Delete(StringX, Pos(LastSubString, StringX), LastSubStringLength);
-  end;
+    Delete(StringX, Pos(LastSubString, StringX) + 1, LastSubStringLength);
 end;
 
 procedure FindInversion(var StringX :tString; Separator :tString);
@@ -66,7 +69,7 @@ var SubString1, SubString2 :tString;
     SubStringLength1, SubStringLength2, OverallCounter, Counter, InversionCounter :Integer;
     FlagIsInversion :Boolean;
 begin
-  OverallCounter := Length(StringX) - 1;
+  OverallCounter := Length(StringX);
   
   while OverallCounter >= 1 do
   begin
@@ -86,7 +89,7 @@ begin
     Counter := 1;
     InversionCounter := 0;
     
-    while Counter < OverallCounter do
+    while Counter <= OverallCounter do
     begin
       SubStringLength2 := 0;
 
@@ -154,7 +157,7 @@ begin
     arrSubStringInfo[WordCount, 1] := Counter;
     arrSubStringInfo[WordCount, 2] := SubStringLength + 1;
 
-    VowelCounter := 0; 
+    VowelCounter := 0;
     
     for var i := 1 to SubStringLength do
     if Pos(SubString[i], LATIN_VOWEL) <> 0 then Inc(VowelCounter);
@@ -203,12 +206,12 @@ begin
   if StringCase1 <> '' then
   begin
     DeleteLastSubstring(StringCase1, SPACE);
-  //  writeln(StringCase1);
+//    writeln(StringCase1);
     FindInversion(StringCase1, SPACE);
   end;
   writeln('Case1: ');
   if (StringCase1 <> '') then writeln(StringCase1)
-  else writeln('No suitable words.');   
+  else writeln('No suitable words.');
 
 
   StringCase2 := OriginalString;
@@ -230,7 +233,7 @@ end.
 //             gfgdfgd                
 //gffghgf             
 //    gfgfgf    haha  nanan   gg gg   hahah  hahangnngn haha
-//gffg nbnb haha gfgf haha 
+//gffg nbnb haha gfgf haha
 //     haha hahanbnbn nnnbbaahh haha jkli lijk hah nbnb ahh ahh haha
 //haha bgbg ggbb bbgg gbgb haha  
 //
@@ -238,4 +241,6 @@ end.
 //
 //I wanted to send an email update to you let you know how things have been going during my semester abroad here in Málaga, Spain. I've already been here for six weeks, and I feel like I am finally adapting to the culture. I'm also speaking the language more fluently.
 //
-//  lebb ellb thmon   haha house bell lecture ouesh  haha lleb ha     month my may mi ma haha hsoue  hah  haha      
+//  lebb ellb thmon   haha house bell lecture ouesh  haha lleb ha     month my may mi ma haha hsoue  hah  haha
+// All Tests are comleted
+
