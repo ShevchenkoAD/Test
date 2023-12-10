@@ -13,6 +13,14 @@ var arr :array[0..n] of integer;
     i, buff, element :integer;
     flag :boolean;
 
+
+
+
+
+
+// Даник Гений
+
+
 begin
   Randomize;
   for i := 0 to n do readln(arr[i]);
@@ -36,5 +44,6 @@ end.
 
 //GG
 //No Way
+
 
 
