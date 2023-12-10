@@ -1,0 +1,220 @@
+const dim = 2;
+      width = 4;
+      length = 4;
+      max_width = 30;
+
+type cell = array[1..dim] of byte;
+     arr_cell = array of cell;
+
+var cell_count :byte;
+    tick_count :integer;
+    fruit, last_cell :cell;
+    snake :arr_cell;
+    flag_fruit, flag_eat, flag_i_block_a, flag_i_block_s, flag_i_block_d, flag_i_block_w, flag_defeat, flag_win, flag_collision :boolean;
+    score :word;
+    control_input :char;
+
+procedure ClearScreen;
+var
+  stdout: THandle;
+  csbi: TConsoleScreenBufferInfo;
+  ConsoleSize: DWORD;
+  NumWritten: DWORD;
+  Origin: TCoord;
+begin
+  stdout := GetStdHandle(STD_OUTPUT_HANDLE);
+  Win32Check(stdout<>INVALID_HANDLE_VALUE);
+  Win32Check(GetConsoleScreenBufferInfo(stdout, csbi));
+  ConsoleSize := csbi.dwSize.X * csbi.dwSize.Y;
+  Origin.X := 0;
+  Origin.Y := 0;
+  Win32Check(FillConsoleOutputCharacter(stdout, ' ', ConsoleSize, Origin,
+    NumWritten));
+  Win32Check(FillConsoleOutputAttribute(stdout, csbi.wAttributes, ConsoleSize, Origin,
+    NumWritten));
+  Win32Check(SetConsoleCursorPosition(stdout, Origin));
+end;
+
+procedure NewFrame(snake :arr_cell; cell_count :byte; fruit :cell; score :word);
+var i, j, k: byte;
+    flag_empty :boolean;
+begin
+  for i := 1 to width do
+  begin
+    for j := 1 to length do
+    begin
+      flag_empty := true;
+      if (fruit[1] = i) and (fruit[2] = j) then
+      begin
+        write('<>');
+        flag_empty := false;
+      end;
+      for k := 0 to cell_count-1 do
+      begin
+        if (snake[k, 1] = i) and (snake[k, 2] = j) then
+        begin
+          if k = 0 then write('88')
+          else write('00');
+          flag_empty := false;
+        end;
+      end;
+      if flag_empty then write('~~');
+    end;
+    if i = 1 then write('  Score: ', score);
+    writeln;
+  end;
+end;
+
+procedure CreateFruit(var fruit :cell; var flag_fruit :boolean; snake :arr_cell; cell_count :byte);
+var k :byte;
+    flag_error :boolean;
+begin
+  Randomize;
+  flag_fruit := true;
+  repeat
+    flag_error := false;
+    fruit[1] := Random(width)+1;
+    fruit[2] := Random(length)+1;
+    for k := 0 to cell_count-1 do if (fruit[1] = snake[k, 1]) and (fruit[2] = snake[k, 2]) then flag_error := true;
+  until not flag_error;
+end;
+
+procedure CheckInputBlock(snake :arr_cell; cell_count :byte; var flag_i_block_w, flag_i_block_a, flag_i_block_s, flag_i_block_d :boolean);
+begin
+  if (snake[0,1] mod width = snake[1,1]+1 mod width) and (snake[0,2] mod length = snake[1,2]   mod length) then flag_i_block_w := true;
+  if (snake[0,1] mod width = snake[1,1]   mod width) and (snake[0,2] mod length = snake[1,2]+1 mod length) then flag_i_block_a := true;
+  if (snake[0,1] mod width = snake[1,1]-1 mod width) and (snake[0,2] mod length = snake[1,2]   mod length) then flag_i_block_s := true;
+  if (snake[0,1] mod width = snake[1,1]   mod width) and (snake[0,2] mod length = snake[1,2]-1 mod length) then flag_i_block_d := true;
+end;
+
+procedure MoveSnake(var snake :arr_cell; cell_count :byte; control_input :char; var last_cell :cell);
+var i :byte;
+    new_head :cell;
+begin
+  if      control_input = 'w' then
+  begin
+    new_head[1] := snake[0, 1]-1;
+    new_head[2] := snake[0, 2];
+  end
+  else if control_input = 'a' then
+  begin
+    new_head[1] := snake[0, 1];
+    new_head[2] := snake[0, 2]-1;
+  end
+  else if control_input = 's' then
+  begin
+    new_head[1] := snake[0, 1]+1;
+    new_head[2] := snake[0, 2];
+  end
+  else if control_input = 'd' then
+  begin
+    new_head[1] := snake[0, 1];
+    new_head[2] := snake[0, 2]+1;
+  end;
+
+  if      new_head[1] = 0        then new_head[1] := width
+  else if new_head[1] = width+1  then new_head[1] := 1;
+  if      new_head[2] = 0        then new_head[2] := length
+  else if new_head[2] = length+1 then new_head[2] := 1;
+
+  last_cell := snake[cell_count-1];
+  for i := cell_count-2 downto 0 do snake[i+1] := snake[i];
+  snake[0] := new_head;
+end;
+
+function CheckSnakeEat(snake :arr_cell; fruit :cell):boolean;
+begin
+  if ((fruit[1] = snake[0, 1]) and (fruit[2] = snake[0, 2])) then result := true
+  else result := false;
+end;
+
+procedure AddCellSnake(var snake :arr_cell; var cell_count :byte; var fruit :cell; var flag_fruit, flag_eat :boolean; last_cell :cell);
+begin
+  flag_fruit := false;
+  flag_eat := false;
+  fruit[1] := 0;
+  fruit[2] := 0;
+  Inc(cell_count);
+  SetLength(snake, cell_count);
+  snake[cell_count-1] := last_cell;
+end;
+
+function CheckCollision(snake :arr_cell; cell_count: byte):boolean;
+var i, j :byte;
+    flag_collision :boolean;
+begin
+  flag_collision := false;
+  for i := 0 to cell_count-1 do for j := i+1 to cell_count-1 do if (snake[i, 1] = snake[j, 1]) and (snake[i, 2] = snake[j, 2]) then flag_collision := true;
+  result := flag_collision;
+end;
+
+begin
+  writeln('NEW GAME');
+  writeln('Controls: A-left; D-rigth; W-forward; S-back');
+  writeln('Press Enter to start.');
+  readln;
+
+  flag_fruit := false;
+  flag_defeat := false;
+  flag_win := false;
+
+  cell_count := 2;
+  SetLength(snake, cell_count);
+  snake[0, 1] := width div 2;
+  snake[0, 2] := length div 2;
+  snake[1, 1] := width div 2;
+  snake[1, 2] := length div 2 -1;
+  fruit[1] := 0;
+  fruit[2] := 0;
+  score := 0;
+  tick_count := 0;
+
+  while not flag_defeat and not flag_win do
+  begin
+    ClearScreen;
+    Inc(tick_count);
+    if not flag_fruit then CreateFruit(fruit, flag_fruit, snake, cell_count);
+
+    NewFrame(snake, cell_count, fruit, score);
+
+    flag_i_block_w := false;
+    flag_i_block_a := false;
+    flag_i_block_s := false;
+    flag_i_block_d := false;
+
+    CheckInputBlock(snake, cell_count, flag_i_block_w, flag_i_block_a, flag_i_block_s, flag_i_block_d);
+    readln(control_input);
+    if control_input = 'w' then
+    begin
+      if   flag_i_block_w then MoveSnake(snake, cell_count, 's', last_cell)
+      else MoveSnake(snake, cell_count, control_input, last_cell);
+    end
+    else if control_input = 'a' then
+    begin
+      if   flag_i_block_a then MoveSnake(snake, cell_count, 'd', last_cell)
+      else MoveSnake(snake, cell_count, control_input, last_cell);
+    end
+    else if control_input = 's' then
+    begin
+      if   flag_i_block_s then MoveSnake(snake, cell_count, 'w', last_cell)
+      else MoveSnake(snake, cell_count, control_input, last_cell);
+    end
+    else if control_input = 'd' then
+    begin
+      if   flag_i_block_d then MoveSnake(snake, cell_count, 'a', last_cell)
+      else MoveSnake(snake, cell_count, control_input, last_cell);
+    end;
+
+    flag_eat := CheckSnakeEat(snake, fruit);
+    if flag_eat then Inc(score);
+    if flag_eat then AddCellSnake(snake, cell_count, fruit, flag_fruit, flag_eat, last_cell);
+
+    if score = length * width - 2 then flag_win := true;
+    flag_collision := CheckCollision(snake, cell_count);
+    if flag_collision then flag_defeat := true;
+  end;
+  if flag_defeat then writeln('Collision!!! You are defeated. Score: ', score)
+  else if flag_win then  writeln('You won. Score: ', score);
+  readln;
+
+  SetLength(snake, 0);
