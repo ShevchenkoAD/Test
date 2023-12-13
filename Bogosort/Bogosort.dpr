@@ -1,4 +1,4 @@
-program Bogosort;
+﻿program Bogosort;
 
 {$APPTYPE CONSOLE}
 
@@ -17,8 +17,8 @@ var arr :array[0..n] of integer;
 
 
 
-
-// ����� �����
+// Русский текст
+// Даник Гений
 
 
 begin
